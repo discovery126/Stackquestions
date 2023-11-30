@@ -25,7 +25,6 @@ public class AuthDetailsService implements UserDetailsService {
         Optional<User> user = userService.getUserByEmail(username);
 
         if (user.isEmpty()) {
-            System.out.println("hello user");
             throw new UsernameNotFoundException("User not found");
         }
 
