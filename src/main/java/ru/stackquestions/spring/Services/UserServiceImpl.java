@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.stackquestions.spring.Controller.payload.NewUserPayload;
 import ru.stackquestions.spring.Controller.payload.UpdateUserPayload;
 import ru.stackquestions.spring.Exception.NoUserExistsException;
+import ru.stackquestions.spring.Exception.UserAlreadyExistsException;
 import ru.stackquestions.spring.Models.MyUser;
 import ru.stackquestions.spring.Repositories.UserRepository;
 
@@ -22,6 +23,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public MyUser createUser(NewUserPayload payload) {
+        if (getUserByEmail(payload.email()).isPresent())
+            throw new UserAlreadyExistsException("error");
+            //Желательно не сообщать пользователю что этот пользователь уже зарегистрирован
+            //throw new UserAlreadyExistsException("this user already registered");
         userRepository.createUser(payload.email(), payload.nameUser(), payload.password());
         //Не проверяю isPresent, потому что после создания обьекта, он точно будет
         return getUserByEmail(payload.email()).get();
