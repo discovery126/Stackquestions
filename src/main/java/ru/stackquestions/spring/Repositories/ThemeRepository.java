@@ -1,6 +1,6 @@
-package Repositories;
+package ru.stackquestions.spring.Repositories;
 
-import Models.Theme;
+import ru.stackquestions.spring.Models.Theme;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,24 +1,21 @@
-package Models;
+package ru.stackquestions.spring.Models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Component
-@Entity(name = "question")
-@Setter
-@Getter
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity(name = "question")
 public class Question {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "qusetion_id")
-    private int questionId;
+    @Column(name = "question_id")
+    private Integer questionId;
 
     @Column(name = "question_header")
     private String questionHeader;
@@ -31,7 +28,7 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName = "user_id")
-    private User owner;
+    private MyUser owner;
 
     @ManyToMany(mappedBy = "questionList")
     List<Theme> themeList;

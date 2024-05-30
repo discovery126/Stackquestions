@@ -1,4 +1,4 @@
-package ru.example.spring.stackquestions;
+package ru.stackquestions.spring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

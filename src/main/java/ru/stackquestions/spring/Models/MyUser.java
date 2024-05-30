@@ -1,23 +1,23 @@
-package Models;
+package ru.stackquestions.spring.Models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Component
-@Setter
-@Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "users")
-public class User {
+public class MyUser {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 
     @Column(name = "email")
     private String email;
@@ -37,10 +37,4 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private List<Answer> answersList;
 
-    public User(String email, String password, String nameUser, Date date_registration) {
-        this.email = email;
-        this.password = password;
-        this.nameUser = nameUser;
-        this.date_registration = date_registration;
-    }
 }

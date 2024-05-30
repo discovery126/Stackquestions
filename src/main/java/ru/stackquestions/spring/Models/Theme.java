@@ -1,26 +1,21 @@
-package Models;
+package ru.stackquestions.spring.Models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
+import lombok.*;
 
 import java.util.List;
 
-@Component
-@Entity(name = "theme")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@Entity(name = "theme")
 public class Theme {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "theme_id")
-    int themeId;
+    private Integer themeId;
 
     @Column(name = "theme_name")
-    String themeName;
+    private String themeName;
 
     @ManyToMany
     @JoinTable(name = "question_theme",
