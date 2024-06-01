@@ -1,4 +1,4 @@
-package ru.stackquestions.spring.Exception;
+package ru.denis.spring.Exception;
 
 public class NoUserExistsException extends RuntimeException {
 

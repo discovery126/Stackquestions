@@ -1,9 +1,9 @@
-package ru.stackquestions.spring.Repositories;
+package ru.denis.spring.Repositories;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ru.stackquestions.spring.Models.MyUser;
+import ru.denis.spring.Models.MyUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

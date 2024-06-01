@@ -1,4 +1,4 @@
-package ru.stackquestions.spring.Models;
+package ru.denis.spring.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +9,6 @@ import java.util.List;
 
 @Data
 @Component
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "users")
@@ -31,10 +30,9 @@ public class MyUser {
     @Column(name = "date_registration")
     private Date date_registration;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Question> questionsList;
-
-    @OneToMany(mappedBy = "owner")
-    private List<Answer> answersList;
-
+    @ManyToMany
+    @JoinTable(name = "user_authority",
+            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id",referencedColumnName = "authority_id"))
+    private List<Authority> authorities;
 }

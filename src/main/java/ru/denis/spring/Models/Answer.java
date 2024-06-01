@@ -1,12 +1,12 @@
-package ru.stackquestions.spring.Models;
+package ru.denis.spring.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "answer")
@@ -27,7 +27,7 @@ public class Answer {
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne
+    @Column(name = "user_id")
     @JoinColumn(name = "user_id",referencedColumnName = "user_id")
-    private MyUser owner;
+    private Integer userId;
 }

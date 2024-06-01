@@ -1,4 +1,4 @@
-package ru.stackquestions.spring.Models;
+package ru.denis.spring.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "question")
@@ -30,6 +29,16 @@ public class Question {
     @JoinColumn(name = "user_id",referencedColumnName = "user_id")
     private MyUser owner;
 
-    @ManyToMany(mappedBy = "questionList")
+    @ManyToMany
+    @JoinTable(name = "question_theme",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "theme_id"))
     List<Theme> themeList;
+
+    @ManyToMany
+    @JoinTable(name = "question_answer",
+            joinColumns = @JoinColumn(name = "question_id",referencedColumnName = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "answer_id"))
+    private List<Answer> answerList;
+
 }

@@ -1,6 +1,6 @@
-package ru.stackquestions.spring.Repositories;
+package ru.denis.spring.Repositories;
 
-import ru.stackquestions.spring.Models.Answer;
+import ru.denis.spring.Models.Answer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

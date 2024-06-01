@@ -1,14 +1,15 @@
-package ru.stackquestions.spring.Services;
+package ru.denis.spring.Services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.stackquestions.spring.Controller.payload.NewUserPayload;
-import ru.stackquestions.spring.Controller.payload.UpdateUserPayload;
-import ru.stackquestions.spring.Exception.NoUserExistsException;
-import ru.stackquestions.spring.Exception.UserAlreadyExistsException;
-import ru.stackquestions.spring.Models.MyUser;
-import ru.stackquestions.spring.Repositories.UserRepository;
+import ru.denis.spring.Controller.payload.NewUserPayload;
+import ru.denis.spring.Controller.payload.UpdateUserPayload;
+import ru.denis.spring.Exception.NoUserExistsException;
+import ru.denis.spring.Exception.UserAlreadyExistsException;
+import ru.denis.spring.Models.MyUser;
+import ru.denis.spring.Repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +17,11 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -27,7 +30,9 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("error");
             //Желательно не сообщать пользователю что этот пользователь уже зарегистрирован
             //throw new UserAlreadyExistsException("this user already registered");
-        userRepository.createUser(payload.email(), payload.nameUser(), payload.password());
+        userRepository.createUser(payload.email(),
+                payload.nameUser(),
+                passwordEncoder.encode(payload.password()));
         //Не проверяю isPresent, потому что после создания обьекта, он точно будет
         return getUserByEmail(payload.email()).get();
     }
@@ -35,25 +40,22 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public MyUser updateUser(UpdateUserPayload updatedUser, Integer id) {
         Optional<MyUser> myUser = getUserById(id);
-        if (myUser.isPresent()) {
-            if (updatedUser.nameUser()!=null) {
-                myUser.get().setNameUser(updatedUser.nameUser());
-            }
-            if (updatedUser.email()!=null) {
-                myUser.get().setEmail(updatedUser.email());
-            }
-            if (updatedUser.password()!=null) {
-                myUser.get().setPassword(updatedUser.password());
-            }
-            userRepository.save(myUser.get());
-            return myUser.get();
+
+        if (myUser.isEmpty())
+            throw new NoUserExistsException("This user is not found");
+
+
+        if (updatedUser.nameUser()!=null) {
+            myUser.get().setNameUser(updatedUser.nameUser());
         }
-        throw new NoUserExistsException("This user is not found");
-    }
+        if (updatedUser.email()!=null) {
+            myUser.get().setEmail(updatedUser.email());
+        }
+        if (updatedUser.password()!=null) {
+            myUser.get().setPassword(updatedUser.password());
+        }
 
-    @Override
-    public void deleteUser(MyUser myUser) {
-
+        return myUser.get();
     }
 
     @Override
