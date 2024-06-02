@@ -17,10 +17,7 @@ import ru.denis.spring.Repositories.QuestionRepository;
 import ru.denis.spring.Repositories.ThemeRepository;
 import ru.denis.spring.Repositories.UserRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -51,15 +48,16 @@ public class QuestionServiceImpl implements QuestionService {
         }
         else {
             List<Theme> themeList = checkCorrectThemes(payload.theme());
+            // JPA сам сохранит themeList в таблицу question_theme, потому что всё происходит в транзакции
+            Question questionResult = new Question(payload.questionHeader(),
+                    payload.questionBody(),
+                    myUser.get(),
+                    themeList);
+            return questionRepository.save(questionResult);
 
-            questionRepository.createQuestion(payload.questionHeader(), payload.questionBody(), myUser.get().getUserId());
-
-            final Question newQuestion = questionRepository.findByQuestionHeader(payload.questionHeader()).get();
-
-            themeList.forEach(th -> questionRepository.createThemeQuestions(newQuestion.getQuestionId(),th.getThemeId()));
-
-            return newQuestion;
-
+//            questionRepository.createQuestion(payload.questionHeader(), payload.questionBody(), myUser.get().getUserId());
+//            themeList.forEach(th -> questionRepository.createThemeQuestions(questionResult.getQuestionId(),th.getThemeId()));
+//            final Question newQuestion = questionRepository.findByQuestionHeader(payload.questionHeader()).get();
         }
     }
 
@@ -84,12 +82,6 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    @Transactional
-    public void deleteUserById(Integer questionId) {
-        questionRepository.deleteByQuestionId(questionId);
-    }
-
-    @Override
     public List<Theme> checkCorrectThemes(List<String> themeString) {
         List<Theme> themeList = new ArrayList<>();
         for (String theme : themeString) {
@@ -102,5 +94,11 @@ public class QuestionServiceImpl implements QuestionService {
             themeList.add(themeOptional.get());
         }
         return themeList;
+    }
+
+    @Override
+    @Transactional
+    public void deleteQuestionById(Integer questionId) {
+        questionRepository.deleteByQuestionId(questionId);
     }
 }

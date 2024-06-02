@@ -15,12 +15,4 @@ public interface UserRepository extends JpaRepository<MyUser,Integer> {
 
     @Modifying
     void deleteByUserId(int userId);
-    @Modifying
-    @Query(value = "INSERT INTO users (email,name,password) VALUES (:EMAIL,:NAME,:PASSWORD);", nativeQuery = true)
-    void createUser(@Param("EMAIL") String email, @Param("NAME") String name,@Param("PASSWORD") String password);
-
-//    @Query("select us.nameUser,us.date_registration, us.questionsList,us.answersList from User")
-//    List<?> getInformation(@Param("id") int id);
-
-
 }

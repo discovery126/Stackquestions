@@ -5,9 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
+@EqualsAndHashCode
 @Entity(name = "theme")
 public class Theme {
 
@@ -18,7 +17,25 @@ public class Theme {
     @Column(name = "theme_name")
     private String themeName;
 
-//    @ManyToMany
+    public Theme() {}
+
+    public Integer getThemeId() {
+        return themeId;
+    }
+
+    public void setThemeId(Integer themeId) {
+        this.themeId = themeId;
+    }
+
+    public String getThemeName() {
+        return themeName;
+    }
+
+    public void setThemeName(String themeName) {
+        this.themeName = themeName;
+    }
+
+    //    @ManyToMany
 //    @JoinTable(name = "question_theme",
 //            joinColumns = @JoinColumn(name = "theme_id"),
 //            inverseJoinColumns = @JoinColumn(name = "question_id"))

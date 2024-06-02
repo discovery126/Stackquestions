@@ -11,6 +11,7 @@ import ru.denis.spring.Exception.UserAlreadyExistsException;
 import ru.denis.spring.Models.MyUser;
 import ru.denis.spring.Repositories.UserRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,11 +31,10 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("error");
             //Желательно не сообщать пользователю что этот пользователь уже зарегистрирован
             //throw new UserAlreadyExistsException("this user already registered");
-        userRepository.createUser(payload.email(),
-                payload.nameUser(),
-                passwordEncoder.encode(payload.password()));
-        //Не проверяю isPresent, потому что после создания обьекта, он точно будет
-        return getUserByEmail(payload.email()).get();
+        MyUser myUser = new MyUser(payload.email(),
+                passwordEncoder.encode(payload.password()),
+                payload.nameUser());
+        return userRepository.save(myUser);
     }
     @Override
     @Transactional
@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
 
         if (myUser.isEmpty())
             throw new NoUserExistsException("This user is not found");
-
 
         if (updatedUser.nameUser()!=null) {
             myUser.get().setNameUser(updatedUser.nameUser());

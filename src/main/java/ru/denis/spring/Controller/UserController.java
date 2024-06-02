@@ -14,8 +14,10 @@ import ru.denis.spring.Controller.payload.NewUserPayload;
 import ru.denis.spring.Controller.payload.UpdateUserPayload;
 import ru.denis.spring.Exception.NoUserExistsException;
 import ru.denis.spring.Models.MyUser;
+import ru.denis.spring.Repositories.UserRepository;
 import ru.denis.spring.Services.UserServiceImpl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,6 +28,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserServiceImpl userService;
+    private final UserRepository userRepository;
     protected static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping()
@@ -71,6 +74,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
                 throw new BindException(bindingResult);
         } else {
+
             MyUser myUser = userService.updateUser(updateUserPayload,id);
             LOGGER.debug("Received request to patch the {}", updateUserPayload);
             return ResponseEntity.ok(myUser);

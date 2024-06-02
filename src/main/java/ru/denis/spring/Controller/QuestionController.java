@@ -42,15 +42,6 @@ public class QuestionController {
         return questionService.getAllQuestions();
     }
 
-//    @GetMapping("/answer/{id}")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public QuestionAnswer getQuestionAnswer(@PathVariable Integer id) {
-//         Optional<QuestionAnswer> questionAnswer = questionService.getQuestionAnswer(id);
-//        if (questionAnswer.isPresent())
-//            return questionAnswer.get();
-//        else throw new NoQuestionExistsException("Нет такого");
-//    }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getQuestion(@PathVariable Integer id) {
         Optional<Question> question = questionService.getQuestion(id);
@@ -89,7 +80,7 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") Integer userId) {
-        questionService.deleteUserById(userId);
+        questionService.deleteQuestionById(userId);
     }
 
 

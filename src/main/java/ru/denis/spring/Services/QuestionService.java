@@ -16,7 +16,7 @@ public interface QuestionService {
     Question updateUser(UpdateQuestionPayload updateQuestionPayload, Integer id);
     List<Question> getAllQuestions();
     Optional<Question> getQuestion(Integer id);
-    void deleteUserById(Integer questionId);
+    void deleteQuestionById(Integer questionId);
 
     List<Theme> checkCorrectThemes(List<String> themeString);
 }
